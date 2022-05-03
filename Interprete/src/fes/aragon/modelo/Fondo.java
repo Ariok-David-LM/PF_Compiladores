@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import fes.aragon.extras.EfectosMusica;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -33,6 +35,11 @@ public class Fondo extends ComponentesJuego {
 	private boolean abajo=false;
 	private boolean derecha=false;
 	private boolean izquierda=false;
+	private Image asteroide;
+	private int cooX= 0;
+	private int cooY= 0;
+	private int xx2=0;
+	private int yy2=0;
 
 	public Fondo(int x, int y, String imagen, int velocidad, Stage ventana) {
 		super(x, y, imagen, velocidad);
@@ -40,8 +47,11 @@ public class Fondo extends ComponentesJuego {
 		this.izquierdaImg=new Image("/fes/aragon/recursos/izquierda.png");
 		this.arribaImg=new Image("/fes/aragon/recursos/arriba.png");
 		this.abajoImg=new Image("/fes/aragon/recursos/abajo.png");
+		this.asteroide=new Image("/fes/aragon/recursos/asteroide.png");
 		this.imagen = derechaImg;
 		this.ventana = ventana;
+		this.cooX = (int) (Math.random()*10);
+		this.cooY = (int) (Math.random()*10);
 	}
 
 	@Override
@@ -63,6 +73,9 @@ public class Fondo extends ComponentesJuego {
 		if (!comandos.isEmpty()) {
 			graficos.strokeText(comandos.get(indice), 100, 40);
 		}
+		xx2=(55+(ancho+10)*cooX);
+		yy2=(55+(alto+10)*cooY);
+		graficos.drawImage(asteroide, xx2, yy2, 40, 40);
 
 		/*
 		 * graficos.drawImage(imagen, (x+(ancho+10)*2), y,ancho,alto);
@@ -174,7 +187,7 @@ public class Fondo extends ComponentesJuego {
 						this.ejecutar();
 					}
 				}
-				
+				break;
 			}
 		}
 	}
@@ -226,7 +239,7 @@ public class Fondo extends ComponentesJuego {
 				yy = (y + (alto + 10) * (yy - 1));
 				this.comando = "coloca";
 				break;
-			case "mover":				
+			case "mover":
 				moverCuadros = Integer.parseInt(datos[1]);
 				if (arriba) {
 					yy = (y - (alto + 10) * moverCuadros);
@@ -242,6 +255,41 @@ public class Fondo extends ComponentesJuego {
 				}
 				this.comando = "mover";
 				break;
+			case "ver":
+				if((x==xx2)&&(y==yy2)) {
+					EfectosMusica disparo = new EfectosMusica("disparo");
+					disparo.run();
+					indice++;
+					if(comandos.get(indice).equals("{")) {
+						System.out.println(comandos.get(indice));
+						while(!comandos.get(indice).equals("}")){
+							indice++;
+							this.ejecutar();
+						};
+					}
+				}else{
+					indice++;
+					while(!comandos.get(indice).equals("}")) {
+						indice++;
+					}
+				}
+				break;
+			/**case "repetir":
+				int cont=Integer.parseInt(datos[1]);
+				System.out.println(cont);
+				indice++;
+				int rep=indice;
+				for (int i = 0; i<cont; i++) {
+					System.out.println(comandos.get(indice));
+					if(comandos.get(indice).equals("{")) {
+						while(!comandos.get(indice).equals("}")){
+							this.ejecutar();
+							indice++;
+						};
+						indice=rep;
+					}
+				}**/
+				
 			default:
 				break;
 			}

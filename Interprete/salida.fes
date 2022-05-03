@@ -1,6 +1,12 @@
-coloca 4 4
+coloca 6 1
 derecha
+mover 1
+abajo
+mover 3
+ver
+{
 izquierda
-mover 2
+mover 3
+}
 arriba
-mover 4
+mover 1
