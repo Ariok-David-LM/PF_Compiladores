@@ -56,7 +56,7 @@ public class Main extends Application {
 		MusicaCiclica entrada = new MusicaCiclica("musica_entrada");
 		hiloFondo = new Thread(entrada);
 		//hiloFondo.start();	
-		fondo=new Fondo(55, 55,"/fes/aragon/recursos/derecha.png" ,2,ventana);		
+		fondo=new Fondo(55, 55,"/fes/aragon/recursos/Cderecha.png" ,2,ventana);		
 	
 	}
 	public void ciclo() {

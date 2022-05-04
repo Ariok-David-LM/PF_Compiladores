@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 import fes.aragon.extras.EfectosMusica;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -17,6 +19,8 @@ import javafx.stage.Stage;
 public class Fondo extends ComponentesJuego {
 	private int yy = 0;
 	private int xx = 0;
+	private int xC=0;
+	private int yC=0;
 	private Image arribaImg;
 	private Image abajoImg;
 	private Image derechaImg;
@@ -35,7 +39,7 @@ public class Fondo extends ComponentesJuego {
 	private boolean abajo=false;
 	private boolean derecha=false;
 	private boolean izquierda=false;
-	private Image asteroide;
+	private Image cherry;
 	private int cooX= 0;
 	private int cooY= 0;
 	private int xx2=0;
@@ -44,10 +48,10 @@ public class Fondo extends ComponentesJuego {
 	public Fondo(int x, int y, String imagen, int velocidad, Stage ventana) {
 		super(x, y, imagen, velocidad);
 		this.derechaImg=new Image(imagen);
-		this.izquierdaImg=new Image("/fes/aragon/recursos/izquierda.png");
-		this.arribaImg=new Image("/fes/aragon/recursos/arriba.png");
-		this.abajoImg=new Image("/fes/aragon/recursos/abajo.png");
-		this.asteroide=new Image("/fes/aragon/recursos/asteroide.png");
+		this.izquierdaImg=new Image("/fes/aragon/recursos/Cizquierda.png");
+		this.arribaImg=new Image("/fes/aragon/recursos/Carriba.png");
+		this.abajoImg=new Image("/fes/aragon/recursos/Cabajo.png");
+		this.cherry=new Image("/fes/aragon/recursos/cherry.png");
 		this.imagen = derechaImg;
 		this.ventana = ventana;
 		this.cooX = (int) (Math.random()*10);
@@ -67,15 +71,19 @@ public class Fondo extends ComponentesJuego {
 			}
 			xx = 50;
 			yy += 50;
-		}		
+		}
+		xC=x;
+		yC=y;
 		graficos.drawImage(imagen, x, y, ancho, alto);
-		graficos.strokeRect(x, y, ancho, alto);
+		//graficos.strokeRect(x, y, ancho, alto);
 		if (!comandos.isEmpty()) {
-			graficos.strokeText(comandos.get(indice), 100, 40);
+			if(comandos.size()>indice) {
+				graficos.strokeText(comandos.get(indice), 100, 40);
+			}
 		}
 		xx2=(55+(ancho+10)*cooX);
 		yy2=(55+(alto+10)*cooY);
-		graficos.drawImage(asteroide, xx2, yy2, 40, 40);
+		graficos.drawImage(cherry, xx2, yy2, 40, 40);
 
 		/*
 		 * graficos.drawImage(imagen, (x+(ancho+10)*2), y,ancho,alto);
@@ -133,15 +141,24 @@ public class Fondo extends ComponentesJuego {
 				this.ejecutar();
 				break;
 			case "coloca":			
-				if (x < xx) {
+				if ((x < xx) && (y<554) && (x<554) && (x>9) && (y>9)) {
 					x += velocidad;
-					this.imagen=this.derechaImg;
-					graficos.clearRect(0, 0, 600, 600);
-				} else {
-					if (y < yy) {
-						this.imagen=this.abajoImg;
-						y += velocidad;
+					if ((x<553)&& (x>10)) {
+						this.imagen=this.derechaImg;
 						graficos.clearRect(0, 0, 600, 600);
+					}else {
+						JOptionPane.showMessageDialog(null, "Fuera de rango");
+					}
+					
+				} else {
+					if ((y < yy) && (y<554) && (x<554) && (x>9) && (y>9)) {
+						y += velocidad;
+						if ((y<=553) && (y>10)) {
+							this.imagen=this.abajoImg;
+							graficos.clearRect(0, 0, 600, 600);
+						}else {
+							JOptionPane.showMessageDialog(null, "Fuera de rango");
+						}
 					}
 				}				
 				if ((x >= xx) && (y >= yy)) {
@@ -152,36 +169,52 @@ public class Fondo extends ComponentesJuego {
 				
 			case "mover":
 				if(arriba) {
-					if (y > yy) {
+					if ((y > yy) && (y<554) && (x<554) && (x>9) && (y>9)) {
 						y -= velocidad;
-						graficos.clearRect(0, 0, 600, 600);
+						if ((y<=553) && (y>10)) {
+							graficos.clearRect(0, 0, 600, 600);
+						}else {
+							JOptionPane.showMessageDialog(null, "Fuera de rango");
+						}
 					}else {
 						indice++;
 						this.ejecutar();
 					}
 				}
 				if(abajo) {
-					if (y < yy) {
+					if ((y < yy) && (y<554) && (x<554) && (x>9) && (y>9)) {
 						y += velocidad;
-						graficos.clearRect(0, 0, 600, 600);
+						if ((y<=553) && (y>10)) {
+							graficos.clearRect(0, 0, 600, 600);
+						}else {
+							JOptionPane.showMessageDialog(null, "Fuera de rango");
+						}
 					}else {
 						indice++;
 						this.ejecutar();
 					}
 				}
 				if(izquierda) {
-					if (x > xx) {
+					if ((x > xx) && (y<554) && (x<554) && (x>9) && (y>9)) {
 						x -= velocidad;
-						graficos.clearRect(0, 0, 600, 600);
+						if ((x<=553) && (x>10)) {
+							graficos.clearRect(0, 0, 600, 600);
+						}else {
+							JOptionPane.showMessageDialog(null, "Fuera de rango");
+						}
 					}else {
 						indice++;
 						this.ejecutar();
 					}
 				}
 				if(derecha) {
-					if (x < xx) {
+					if ((x < xx) && (y<554) && (x<554) && (x>9) && (y>9)) {
 						x += velocidad;
-						graficos.clearRect(0, 0, 600, 600);
+						if ((x<=553) && (x>10)) {
+							graficos.clearRect(0, 0, 600, 600);
+						}else {
+							JOptionPane.showMessageDialog(null, "Fuera de rango");
+						}
 					}else {
 						indice++;
 						this.ejecutar();
@@ -231,6 +264,8 @@ public class Fondo extends ComponentesJuego {
 				this.comando="derecha";
 				break;
 			case "coloca":
+				EfectosMusica arranque = new EfectosMusica("arranque");
+				arranque.run();
 				x = 55;
 				y = 55;
 				xx = Integer.parseInt(datos[1]);
@@ -257,8 +292,8 @@ public class Fondo extends ComponentesJuego {
 				break;
 			case "ver":
 				if((x==xx2)&&(y==yy2)) {
-					EfectosMusica disparo = new EfectosMusica("disparo");
-					disparo.run();
+					EfectosMusica claxon = new EfectosMusica("claxon");
+					claxon.run();
 					indice++;
 					if(comandos.get(indice).equals("{")) {
 						System.out.println(comandos.get(indice));

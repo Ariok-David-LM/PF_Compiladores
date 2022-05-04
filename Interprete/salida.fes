@@ -1,12 +1,10 @@
-coloca 6 1
-derecha
-mover 1
-abajo
+coloca 1 1
+arriba
 mover 3
-ver
-{
 izquierda
-mover 3
-}
+mover 1
+ver fruta
+{
 arriba
 mover 1
+}
