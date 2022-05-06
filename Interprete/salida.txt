@@ -1,4 +1,4 @@
-coloca 5 5
+coloca 15 84
 izquierda
 mover 2
 derecha

@@ -1,5 +1,6 @@
 package fes.aragon.inicio;
 
+import fes.aragon.compilador.Principal;
 import fes.aragon.extras.MusicaCiclica;
 import fes.aragon.modelo.Fondo;
 import javafx.animation.AnimationTimer;
@@ -20,6 +21,7 @@ public class Main extends Application {
 	private Thread hiloFondo;
 	private Fondo fondo;
 	private Stage ventana;
+	private MusicaCiclica musica = new MusicaCiclica("BigCarTheft");
 	
 	
 
@@ -53,11 +55,10 @@ public class Main extends Application {
 		hoja = new Canvas(600, 600);
 		root.getChildren().add(hoja);
 		graficos = hoja.getGraphicsContext2D();
-		MusicaCiclica entrada = new MusicaCiclica("musica_entrada");
+		MusicaCiclica entrada = new MusicaCiclica("BigCarTheft");
 		hiloFondo = new Thread(entrada);
-		//hiloFondo.start();	
-		fondo=new Fondo(55, 55,"/fes/aragon/recursos/Cderecha.png" ,2,ventana);		
-	
+		hiloFondo.start();	
+		fondo=new Fondo(55, 55,"/fes/aragon/recursos/Cderecha.png" ,2,ventana);	
 	}
 	public void ciclo() {
 		long tiempoInicio=System.nanoTime();

@@ -9,7 +9,9 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
+import fes.aragon.compilador.Principal;
 import fes.aragon.extras.EfectosMusica;
+import fes.aragon.extras.MusicaCiclica;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -104,6 +106,8 @@ public class Fondo extends ComponentesJuego {
 			switch (evento.getCode().toString()) {
 			case "A":
 				try {
+					Principal analizadores = new Principal();
+					analizadores.main(null);
 					this.abrirArchivo();
 					graficos.clearRect(0, 0, 600, 600);
 				} catch (ClassNotFoundException e) {
@@ -221,6 +225,23 @@ public class Fondo extends ComponentesJuego {
 					}
 				}
 				break;
+			case "ver":
+				if((x==xx2)&&(y==yy2)) {
+					this.ejecutar();
+					indice++;
+					if(comandos.get(indice).equals("{")) {
+						while(!comandos.get(indice).equals("}")){
+							indice++;
+							this.ejecutar();
+						};
+					}
+				}else{
+					indice++;
+					while(!comandos.get(indice).equals("}")) {
+						indice++;
+					}
+				}
+				break;
 			}
 		}
 	}
@@ -291,24 +312,10 @@ public class Fondo extends ComponentesJuego {
 				this.comando = "mover";
 				break;
 			case "ver":
-				if((x==xx2)&&(y==yy2)) {
-					EfectosMusica claxon = new EfectosMusica("claxon");
-					claxon.run();
-					indice++;
-					if(comandos.get(indice).equals("{")) {
-						System.out.println(comandos.get(indice));
-						while(!comandos.get(indice).equals("}")){
-							indice++;
-							this.ejecutar();
-						};
-					}
-				}else{
-					indice++;
-					while(!comandos.get(indice).equals("}")) {
-						indice++;
-					}
-				}
+				EfectosMusica claxon = new EfectosMusica("claxon");
+				claxon.run();
 				break;
+			
 			/**case "repetir":
 				int cont=Integer.parseInt(datos[1]);
 				System.out.println(cont);
