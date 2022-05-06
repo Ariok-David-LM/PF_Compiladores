@@ -1,0 +1,200 @@
+package fes.aragon.compilador;
+import java_cup.runtime.*;
+import java.io.*;
+import java.util.*;
+
+action code{:
+	public StringBuilder info = new StringBuilder();
+	public Archivo archivoSalida=
+    new Archivo(new File(System.getProperty("user.dir")+"/salida.txt"));
+    
+	public void almacenar(String datos,boolean valor){
+		String[] intermedio  = datos.split("#"); 
+		for (int i = 0; i < intermedio.length; i++) {
+			//String string = intermedio[i];
+			info.append(intermedio[i]+ "\n");
+		}
+		System.out.println(datos);
+		archivoSalida.escribir(info,valor);
+	}
+:};
+
+parser code{:
+	public static Lexico lex;
+	public parser parserFuente;
+   	
+	public void syntax_error(Symbol st){
+		System.out.println("Error en la linea "+ lex.getYyline() +
+                    " columna: "+ lex.getYy_currentPos());
+	}
+	public void cargar(String archivo) throws Exception{	
+		lex=new Lexico(new FileInputStream(new File(archivo)));
+		parserFuente=new parser(lex);
+		parserFuente.parse();			
+	}
+	
+:};
+
+terminal PUNTOYCOMA, COLOCA, MOVER, ARRIBA;
+terminal ABAJO, IZQUIERDA, DERECHA, REPETIR, VERFRUTA;
+terminal LLAVEA, LLAVEC;
+terminal Integer NUMERO;
+
+non terminal num, codigo, lista, lista2, lista3;
+
+
+codigo ::= lista:l1 {:
+	almacenar(l1+"",false);
+	:};
+	
+lista ::= lista:l1 COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	RESULT=l1 + "#" + "coloca " + n1 + " " +  n2;
+	:}
+	|lista:l1 MOVER num:n1 PUNTOYCOMA {:
+	RESULT=l1 +"#" + "mover " + n1;
+	:}
+	|lista:l1 ARRIBA PUNTOYCOMA {:
+	RESULT=l1 + "#" + "arriba";
+	:}
+	|lista:l1 ABAJO PUNTOYCOMA {:
+	RESULT=l1 + "#" + "abajo";
+	:}	
+	|lista:l1 IZQUIERDA PUNTOYCOMA {:
+	RESULT=l1 + "#" + "izquierda";
+	:}
+	|lista:l1 DERECHA PUNTOYCOMA {:
+	RESULT=l1 + "#" + "derecha";
+	:}
+	|lista:l1 REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	String repeticiones = "";
+	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
+		repeticiones += "#" + l2;			
+	}
+	RESULT = l1 + repeticiones;
+	:}
+	|lista:l1 VERFRUTA LLAVEA lista3:l3 LLAVEC {:
+	RESULT=l1 + "#" + "ver " + "#" + "{" + "#" + l3 + "#" + "}";
+	:}
+	|COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	RESULT="coloca " + n1 + " " + n2;
+	:}
+	|MOVER num:n1 PUNTOYCOMA {:
+	RESULT="mover " + n1;
+	:}
+	|ARRIBA PUNTOYCOMA {:
+	RESULT="arriba";
+	:}
+	|ABAJO PUNTOYCOMA {:
+	RESULT="abajo";
+	:}
+	|IZQUIERDA PUNTOYCOMA {:
+	RESULT="izquierda";
+	:}
+	|DERECHA PUNTOYCOMA {:
+	RESULT="derecha";
+	:}
+	|REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	String repeticiones = "";
+	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
+		repeticiones += "#" + l2;			
+	}
+	RESULT = repeticiones;
+	:}
+	|VERFRUTA LLAVEA lista3:l3 LLAVEC {:
+	RESULT="ver " + "#" + "{" + "#" + l3 + "#" + "}";
+	:};
+lista2 ::= lista2:l2 COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	RESULT=l2 + "#" + "coloca " + n1 + " " +  n2;
+	:}
+	|lista2:l2 MOVER num:n1 PUNTOYCOMA {:
+	RESULT=l2 +"#" + "mover " + n1;
+	:}
+	|lista2:l2 ARRIBA PUNTOYCOMA {:
+	RESULT=l2 + "#" + "arriba";
+	:}
+	|lista2:l2 ABAJO PUNTOYCOMA {:
+	RESULT=l2 + "#" + "abajo";
+	:}
+	|lista2:l2 IZQUIERDA PUNTOYCOMA {:
+	RESULT=l2 + "#" + "izquierda";
+	:}
+	|lista2:l2 DERECHA PUNTOYCOMA {:
+	RESULT=l2 + "#" + "derecha";
+	:}
+	|lista2:l2 VERFRUTA LLAVEA lista3:l3 LLAVEC {:
+	RESULT= l2 + "#" + "ver " + "#" + "{" + "#" + l3 + "#" + "}";
+	:}
+	|COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	RESULT="coloca " + n1 + " " + n2;
+	:}
+	|MOVER num:n1 PUNTOYCOMA {:
+	RESULT="mover " + n1;
+	:}
+	|ARRIBA PUNTOYCOMA {:
+	RESULT="arriba";
+	:}
+	|ABAJO PUNTOYCOMA {:
+	RESULT="abajo";
+	:}
+	|IZQUIERDA PUNTOYCOMA {:
+	RESULT="izquierda";
+	:}
+	|DERECHA PUNTOYCOMA {:
+	RESULT="derecha";
+	:}
+	|VERFRUTA LLAVEA lista3:l3 LLAVEC {:
+	RESULT="ver " + "#" + "{" + "#" + l3 + "#" + "}";
+	:};
+lista3 ::= lista3:l3 COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	RESULT=l3 + "#" + "coloca " + n1 + " " + n2;
+	:}
+	|lista3:l3 MOVER num:n1 PUNTOYCOMA {:
+	RESULT=l3 + "#" + "mover " + n1;
+	:}
+	|lista3:l3 ARRIBA PUNTOYCOMA {:
+	RESULT=l3 + "#" + "arriba";
+	:}
+	|lista3:l3 ABAJO PUNTOYCOMA {:
+	RESULT=l3 + "#" + "abajo";
+	:}
+	|lista3:l3 IZQUIERDA PUNTOYCOMA {:
+	RESULT=l3 + "#" + "izquierda";
+	:}
+	|lista3:l3 DERECHA PUNTOYCOMA {:
+	RESULT=l3 + "#" + "derecha";
+	:}
+	|lista3:l3 REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	String repeticiones = "";
+	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
+		repeticiones += "#" + l2;			
+	}
+	RESULT =l3 + repeticiones;
+	:}
+	|COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	RESULT= "coloca " + n1 + " " + n2;
+	:}
+	|MOVER num:n1 PUNTOYCOMA {:
+	RESULT="mover " + n1;
+	:}
+	|ARRIBA PUNTOYCOMA {:
+	RESULT="arriba";
+	:}
+	|ABAJO PUNTOYCOMA {:
+	RESULT="abajo";
+	:}
+	|IZQUIERDA PUNTOYCOMA {:
+	RESULT="izquierda";
+	:}
+	|DERECHA PUNTOYCOMA {:
+	RESULT="derecha";
+	:}
+	|REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	String repeticiones = "";
+	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
+		repeticiones += "#" + l2;			
+	}
+	RESULT = repeticiones;
+	:};
+num ::= NUMERO:n {:
+	RESULT=n+"";
+	:};

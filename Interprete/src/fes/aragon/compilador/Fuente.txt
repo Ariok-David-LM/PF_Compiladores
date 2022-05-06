@@ -1,0 +1,13 @@
+coloca 5 5;
+izquierda;
+mover 2;
+repetir 2 { 
+derecha;
+mover 3; 
+ver fruta{
+izquierda;
+repetir 2{
+arriba;
+}
+}
+}
