@@ -41,6 +41,7 @@ public class Fondo extends ComponentesJuego {
 	private boolean abajo=false;
 	private boolean derecha=false;
 	private boolean izquierda=false;
+	private boolean ver=false;
 	private Image cherry;
 	private int cooX= 0;
 	private int cooY= 0;
@@ -226,7 +227,7 @@ public class Fondo extends ComponentesJuego {
 				}
 				break;
 			case "ver":
-				if((x==xx2)&&(y==yy2)) {
+				if((ver==true)) {					
 					this.ejecutar();
 					indice++;
 					if(comandos.get(indice).equals("{")) {
@@ -234,11 +235,6 @@ public class Fondo extends ComponentesJuego {
 							indice++;
 							this.ejecutar();
 						};
-					}
-				}else{
-					indice++;
-					while(!comandos.get(indice).equals("}")) {
-						indice++;
 					}
 				}
 				break;
@@ -312,9 +308,17 @@ public class Fondo extends ComponentesJuego {
 				this.comando = "mover";
 				break;
 			case "ver":
-				EfectosMusica claxon = new EfectosMusica("claxon");
-				claxon.run();
-				break;
+				if((x==xx2)&&(y==yy2)) {
+					EfectosMusica claxon = new EfectosMusica("claxon");
+					claxon.run();
+					ver=true;
+					break;
+				}else{
+					indice++;
+					while(!comandos.get(indice).equals("}")) {
+						indice++;
+					}
+				}	
 			
 			/**case "repetir":
 				int cont=Integer.parseInt(datos[1]);
