@@ -1,21 +1,33 @@
-coloca 5 1
+derecha
+mover 1
 abajo
-mover 2
+mover 3
 ver 
 {
-derecha
-mover 3
-izquierda
-mover 1
-derecha
-mover 2
-izquierda
-mover 1
-derecha
-mover 2
 abajo
-mover 3
-}
-derecha
 mover 2
+mover 2
+izquierda
+mover 1
+mover 2
+izquierda
+mover 1
+mover 2
+izquierda
+mover 1
+abajo
+mover 2
+}
+izquierda
+mover 1
+ver 
+{
+mover 2
+}
+izquierda
+mover 1
+ver 
+{
+mover 2
+}
 

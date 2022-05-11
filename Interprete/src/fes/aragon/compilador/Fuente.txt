@@ -1,17 +1,22 @@
-coloca 2 1;
+derecha;
+mover 1;
+abajo;
+mover 3;
+ver fruta{
 abajo;
 mover 2;
-ver fruta {
-derecha;
-mover 3;
+repetir 3{
+mover 2;
+izquierda;
+mover 1;
+}
+abajo;
+mover 2;
+}
 repetir 2{
 izquierda;
 mover 1;
-derecha;
+ver fruta{
 mover 2;
 }
-abajo;
-mover 3;
 }
-derecha; 
-mover 2;

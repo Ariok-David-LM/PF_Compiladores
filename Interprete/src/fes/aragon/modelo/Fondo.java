@@ -120,6 +120,8 @@ public class Fondo extends ComponentesJuego {
 				}
 				break;
 			case "R":
+				EfectosMusica arranque = new EfectosMusica("arranque");
+				arranque.run();
 				iniciar();
 				this.ejecutar();
 				this.iniciar = true;
@@ -154,7 +156,6 @@ public class Fondo extends ComponentesJuego {
 					}else {
 						JOptionPane.showMessageDialog(null, "Fuera de rango");
 					}
-					
 				} else {
 					if ((y < yy) && (y<554) && (x<554) && (x>9) && (y>9)) {
 						y += velocidad;
@@ -281,8 +282,6 @@ public class Fondo extends ComponentesJuego {
 				this.comando="derecha";
 				break;
 			case "coloca":
-				EfectosMusica arranque = new EfectosMusica("arranque");
-				arranque.run();
 				x = 55;
 				y = 55;
 				xx = Integer.parseInt(datos[1]);
@@ -292,6 +291,16 @@ public class Fondo extends ComponentesJuego {
 				this.comando = "coloca";
 				break;
 			case "mover":
+				if(indice>0 && !comandos.get(indice-1).equals("arriba") &&
+						!comandos.get(indice-1).equals("abajo") &&
+						!comandos.get(indice-1).equals("izquierda") &&
+						!comandos.get(indice-1).equals("derecha")) {
+					this.imagen=this.derechaImg;
+					this.derecha = true;
+					this.arriba = false;
+					this.abajo = false;
+					this.izquierda = false;
+				}
 				moverCuadros = Integer.parseInt(datos[1]);
 				if (arriba) {
 					yy = (y - (alto + 10) * moverCuadros);
@@ -318,23 +327,7 @@ public class Fondo extends ComponentesJuego {
 					while(!comandos.get(indice).equals("}")) {
 						indice++;
 					}
-				}	
-			
-			/**case "repetir":
-				int cont=Integer.parseInt(datos[1]);
-				System.out.println(cont);
-				indice++;
-				int rep=indice;
-				for (int i = 0; i<cont; i++) {
-					System.out.println(comandos.get(indice));
-					if(comandos.get(indice).equals("{")) {
-						while(!comandos.get(indice).equals("}")){
-							this.ejecutar();
-							indice++;
-						};
-						indice=rep;
-					}
-				}**/
+				}
 				
 			default:
 				break;
@@ -379,7 +372,7 @@ public class Fondo extends ComponentesJuego {
 		comando = "";
 		arriba=false;
 		abajo=false;
-		derecha=false;
+		derecha=true;
 		izquierda=false;
 	}
 }
