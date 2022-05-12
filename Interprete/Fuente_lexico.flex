@@ -23,6 +23,7 @@ import java.io.Reader;
  return new Symbol(sym.EOF,new String("Fin del archivo"));
 //return null;
 %eofval}
+Espacio= " "
 DIGITO=[0-9]
 NUM={DIGITO}+
 %%
@@ -37,13 +38,12 @@ NUM={DIGITO}+
 ";" {System.out.println("puntocoma"); return new Symbol(sym.PUNTOYCOMA); }
 "{" {System.out.println("llavea"); return new Symbol(sym.LLAVEA); }
 "}" {System.out.println("llavec"); return new Symbol(sym.LLAVEC); }
-
+{Espacio} {System.out.println("espacio"); return new Symbol(sym.ESPACIO); }
 {NUM}+ {
 		System.out.println("numero");
 		return new Symbol(sym.NUMERO, new Integer(yytext())); }
 [\t\r\f]  {}
 [\n] {}
-" " {System.out.println("Simbolo ."+yytext());}
 . { System.out.println("Caracter no valido. "+yytext()+"-"); }
 
 

@@ -25,7 +25,7 @@ parser code{:
 	public parser parserFuente;
    	
 	public void syntax_error(Symbol st){
-		JOptionPane.showMessageDialog(null, "Error en la linea "+ lex.getYyline() +
+		JOptionPane.showMessageDialog(null, "Error en la linea "+ (lex.getYyline()+1) +
                     " columna: "+ lex.getYy_currentPos());
 	}
 	public void cargar(String archivo) throws Exception{	
@@ -36,7 +36,7 @@ parser code{:
 	
 :};
 
-terminal PUNTOYCOMA, COLOCA, MOVER, ARRIBA;
+terminal PUNTOYCOMA, COLOCA, MOVER, ARRIBA, ESPACIO;
 terminal ABAJO, IZQUIERDA, DERECHA, REPETIR, VERFRUTA;
 terminal LLAVEA, LLAVEC;
 terminal Integer NUMERO;
@@ -49,10 +49,10 @@ codigo ::= lista:l1 {:
 	almacenar(l1+"",false);
 	:};
 	
-lista ::= lista:l1 COLOCA num:n1 num:n2 PUNTOYCOMA {:
+lista ::= lista:l1 COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
 	RESULT=l1 + "#" + "coloca " + n1 + " " +  n2;
 	:}
-	|lista:l1 MOVER num:n1 PUNTOYCOMA {:
+	|lista:l1 MOVER ESPACIO num:n1 PUNTOYCOMA {:
 	RESULT=l1 +"#" + "mover " + n1;
 	:}
 	|lista:l1 ARRIBA PUNTOYCOMA {:
@@ -67,7 +67,7 @@ lista ::= lista:l1 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	|lista:l1 DERECHA PUNTOYCOMA {:
 	RESULT=l1 + "#" + "derecha";
 	:}
-	|lista:l1 REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	|lista:l1 REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
 	String repeticiones = "";
 	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
 		repeticiones += "#" + l2;			
@@ -77,10 +77,10 @@ lista ::= lista:l1 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	|lista:l1 VERFRUTA LLAVEA lista3:l3 LLAVEC {:
 	RESULT=l1 + "#" + "ver " + "#" + "{" + "#" + l3 + "#" + "}";
 	:}
-	|COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	|COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
 	RESULT=new String("coloca " + n1 + " " + n2);
 	:}
-	|MOVER num:n1 PUNTOYCOMA {:
+	|MOVER ESPACIO num:n1 PUNTOYCOMA {:
 	RESULT=new String("mover " + n1);
 	:}
 	|ARRIBA PUNTOYCOMA {:
@@ -95,7 +95,7 @@ lista ::= lista:l1 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	|DERECHA PUNTOYCOMA {:
 	RESULT=new String("derecha");
 	:}
-	|REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	|REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
 	String repeticiones = "";
 	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
 		repeticiones += "#" + l2;			
@@ -106,10 +106,10 @@ lista ::= lista:l1 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	RESULT="ver " + "#" + "{" + "#" + l3 + "#" + "}";
 	:}
 	|error{:;:};
-lista2 ::= lista2:l2 COLOCA num:n1 num:n2 PUNTOYCOMA {:
+lista2 ::= lista2:l2 COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
 	RESULT=l2 + "#" + "coloca " + n1 + " " +  n2;
 	:}
-	|lista2:l2 MOVER num:n1 PUNTOYCOMA {:
+	|lista2:l2 MOVER ESPACIO num:n1 PUNTOYCOMA {:
 	RESULT=l2 +"#" + "mover " + n1;
 	:}
 	|lista2:l2 ARRIBA PUNTOYCOMA {:
@@ -127,10 +127,10 @@ lista2 ::= lista2:l2 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	|lista2:l2 VERFRUTA LLAVEA lista3:l3 LLAVEC {:
 	RESULT= l2 + "#" + "ver " + "#" + "{" + "#" + l3 + "#" + "}";
 	:}
-	|COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	|COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
 	RESULT=new String("coloca " + n1 + " " + n2);
 	:}
-	|MOVER num:n1 PUNTOYCOMA {:
+	|MOVER ESPACIO num:n1 PUNTOYCOMA {:
 	RESULT=new String("mover " + n1);
 	:}
 	|ARRIBA PUNTOYCOMA {:
@@ -149,10 +149,10 @@ lista2 ::= lista2:l2 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	RESULT="ver " + "#" + "{" + "#" + l3 + "#" + "}";
 	:}
 	|error{:;:};
-lista3 ::= lista3:l3 COLOCA num:n1 num:n2 PUNTOYCOMA {:
+lista3 ::= lista3:l3 COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
 	RESULT=l3 + "#" + "coloca " + n1 + " " + n2;
 	:}
-	|lista3:l3 MOVER num:n1 PUNTOYCOMA {:
+	|lista3:l3 MOVER ESPACIO num:n1 PUNTOYCOMA {:
 	RESULT=l3 + "#" + "mover " + n1;
 	:}
 	|lista3:l3 ARRIBA PUNTOYCOMA {:
@@ -167,17 +167,17 @@ lista3 ::= lista3:l3 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	|lista3:l3 DERECHA PUNTOYCOMA {:
 	RESULT=l3 + "#" + "derecha";
 	:}
-	|lista3:l3 REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	|lista3:l3 REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
 	String repeticiones = "";
 	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
 		repeticiones += "#" + l2;			
 	}
 	RESULT =l3 + repeticiones;
 	:}
-	|COLOCA num:n1 num:n2 PUNTOYCOMA {:
+	|COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
 	RESULT=new String("coloca " + n1 + " " + n2);
 	:}
-	|MOVER num:n1 PUNTOYCOMA {:
+	|MOVER ESPACIO num:n1 PUNTOYCOMA {:
 	RESULT=new String("mover " + n1);
 	:}
 	|ARRIBA PUNTOYCOMA {:
@@ -192,7 +192,7 @@ lista3 ::= lista3:l3 COLOCA num:n1 num:n2 PUNTOYCOMA {:
 	|DERECHA PUNTOYCOMA {:
 	RESULT=new String("derecha");
 	:}
-	|REPETIR num:n1 LLAVEA lista2:l2 LLAVEC {:
+	|REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
 	String repeticiones = "";
 	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
 		repeticiones += "#" + l2;			

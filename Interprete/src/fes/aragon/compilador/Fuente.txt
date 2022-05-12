@@ -1,4 +1,3 @@
-derecha;
 mover 1;
 abajo;
 mover 3;
