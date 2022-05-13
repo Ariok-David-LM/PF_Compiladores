@@ -41,165 +41,62 @@ terminal ABAJO, IZQUIERDA, DERECHA, REPETIR, VERFRUTA;
 terminal LLAVEA, LLAVEC;
 terminal Integer NUMERO;
 
-non terminal num, codigo;
-non terminal String lista, lista2, lista3;
+non terminal codigo;
+non terminal String algoritmo, algoritmo2, algoritmo3, num, ins;
 
 
-codigo ::= lista:l1 {:
-	almacenar(l1+"",false);
-	:};
+codigo ::= algoritmo:al {:almacenar(al + "",false);:};
 	
-lista ::= lista:l1 COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
-	RESULT=l1 + "#" + "coloca " + n1 + " " +  n2;
-	:}
-	|lista:l1 MOVER ESPACIO num:n1 PUNTOYCOMA {:
-	RESULT=l1 +"#" + "mover " + n1;
-	:}
-	|lista:l1 ARRIBA PUNTOYCOMA {:
-	RESULT=l1 + "#" + "arriba";
-	:}
-	|lista:l1 ABAJO PUNTOYCOMA {:
-	RESULT=l1 + "#" + "abajo";
-	:}	
-	|lista:l1 IZQUIERDA PUNTOYCOMA {:
-	RESULT=l1 + "#" + "izquierda";
-	:}
-	|lista:l1 DERECHA PUNTOYCOMA {:
-	RESULT=l1 + "#" + "derecha";
-	:}
-	|lista:l1 REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
+algoritmo ::= algoritmo:al ins:in PUNTOYCOMA {:RESULT=al + "#" + in;:}
+	|algoritmo:al REPETIR ESPACIO num:n LLAVEA algoritmo2:al2 LLAVEC {:
 	String repeticiones = "";
-	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
-		repeticiones += "#" + l2;			
+	for (int i = 0; i < Integer.parseInt(n+""); i++) {
+		repeticiones += "#" + al2;			
 	}
-	RESULT = l1 + repeticiones;
+	RESULT = al + repeticiones;
 	:}
-	|lista:l1 VERFRUTA LLAVEA lista3:l3 LLAVEC {:
-	RESULT=l1 + "#" + "ver " + "#" + "{" + "#" + l3 + "#" + "}";
-	:}
-	|COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
-	RESULT=new String("coloca " + n1 + " " + n2);
-	:}
-	|MOVER ESPACIO num:n1 PUNTOYCOMA {:
-	RESULT=new String("mover " + n1);
-	:}
-	|ARRIBA PUNTOYCOMA {:
-	RESULT=new String("arriba");
-	:}
-	|ABAJO PUNTOYCOMA {:
-	RESULT=new String("abajo");
-	:}
-	|IZQUIERDA PUNTOYCOMA {:
-	RESULT=new String("izquierda");
-	:}
-	|DERECHA PUNTOYCOMA {:
-	RESULT=new String("derecha");
-	:}
-	|REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
+	|algoritmo:al VERFRUTA LLAVEA algoritmo3:al3 LLAVEC {:RESULT=al + "#" + "ver " + "#" + "{" + "#" + al3 + "#" + "}";:}
+	|ins:in PUNTOYCOMA {:RESULT=in;:}
+	|REPETIR num:n ESPACIO LLAVEA algoritmo2:al2 LLAVEC {:
 	String repeticiones = "";
-	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
-		repeticiones += "#" + l2;			
+	for (int i = 0; i < Integer.parseInt(n+""); i++) {
+		repeticiones += "#" + al2;			
 	}
 	RESULT = repeticiones;
 	:}
-	|VERFRUTA LLAVEA lista3:l3 LLAVEC {:
-	RESULT="ver " + "#" + "{" + "#" + l3 + "#" + "}";
-	:}
+	|VERFRUTA LLAVEA algoritmo3:al3 LLAVEC {:RESULT="ver " + "#" + "{" + "#" + al3 + "#" + "}";:}
 	|error{:;:};
-lista2 ::= lista2:l2 COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
-	RESULT=l2 + "#" + "coloca " + n1 + " " +  n2;
-	:}
-	|lista2:l2 MOVER ESPACIO num:n1 PUNTOYCOMA {:
-	RESULT=l2 +"#" + "mover " + n1;
-	:}
-	|lista2:l2 ARRIBA PUNTOYCOMA {:
-	RESULT=l2 + "#" + "arriba";
-	:}
-	|lista2:l2 ABAJO PUNTOYCOMA {:
-	RESULT=l2 + "#" + "abajo";
-	:}
-	|lista2:l2 IZQUIERDA PUNTOYCOMA {:
-	RESULT=l2 + "#" + "izquierda";
-	:}
-	|lista2:l2 DERECHA PUNTOYCOMA {:
-	RESULT=l2 + "#" + "derecha";
-	:}
-	|lista2:l2 VERFRUTA LLAVEA lista3:l3 LLAVEC {:
-	RESULT= l2 + "#" + "ver " + "#" + "{" + "#" + l3 + "#" + "}";
-	:}
-	|COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
-	RESULT=new String("coloca " + n1 + " " + n2);
-	:}
-	|MOVER ESPACIO num:n1 PUNTOYCOMA {:
-	RESULT=new String("mover " + n1);
-	:}
-	|ARRIBA PUNTOYCOMA {:
-	RESULT=new String("arriba");
-	:}
-	|ABAJO PUNTOYCOMA {:
-	RESULT=new String("abajo");
-	:}
-	|IZQUIERDA PUNTOYCOMA {:
-	RESULT=new String("izquierda");
-	:}
-	|DERECHA PUNTOYCOMA {:
-	RESULT=new String("derecha");
-	:}
-	|VERFRUTA LLAVEA lista3:l3 LLAVEC {:
-	RESULT="ver " + "#" + "{" + "#" + l3 + "#" + "}";
-	:}
+	
+algoritmo2 ::= algoritmo2:al ins:in PUNTOYCOMA {:RESULT=al + "#" + in;:}
+	|algoritmo2:al VERFRUTA LLAVEA algoritmo3:al3 LLAVEC {:RESULT=al + "#" + "ver " + "#" + "{" + "#" + al3 + "#" + "}";:}
+	|ins:in PUNTOYCOMA {:RESULT=in;:}
+	|VERFRUTA LLAVEA algoritmo3:al3 LLAVEC {:RESULT="ver " + "#" + "{" + "#" + al3 + "#" + "}";:}
 	|error{:;:};
-lista3 ::= lista3:l3 COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
-	RESULT=l3 + "#" + "coloca " + n1 + " " + n2;
-	:}
-	|lista3:l3 MOVER ESPACIO num:n1 PUNTOYCOMA {:
-	RESULT=l3 + "#" + "mover " + n1;
-	:}
-	|lista3:l3 ARRIBA PUNTOYCOMA {:
-	RESULT=l3 + "#" + "arriba";
-	:}
-	|lista3:l3 ABAJO PUNTOYCOMA {:
-	RESULT=l3 + "#" + "abajo";
-	:}
-	|lista3:l3 IZQUIERDA PUNTOYCOMA {:
-	RESULT=l3 + "#" + "izquierda";
-	:}
-	|lista3:l3 DERECHA PUNTOYCOMA {:
-	RESULT=l3 + "#" + "derecha";
-	:}
-	|lista3:l3 REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
+	
+algoritmo3 ::= algoritmo3:al ins:in PUNTOYCOMA {:RESULT=al + "#" + in;:}
+	|algoritmo3:al REPETIR ESPACIO num:n LLAVEA algoritmo2:al2 LLAVEC {:
 	String repeticiones = "";
-	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
-		repeticiones += "#" + l2;			
+	for (int i = 0; i < Integer.parseInt(n+""); i++) {
+		repeticiones += "#" + al2;			
 	}
-	RESULT =l3 + repeticiones;
+	RESULT = al + repeticiones;
 	:}
-	|COLOCA ESPACIO num:n1 ESPACIO num:n2 PUNTOYCOMA {:
-	RESULT=new String("coloca " + n1 + " " + n2);
-	:}
-	|MOVER ESPACIO num:n1 PUNTOYCOMA {:
-	RESULT=new String("mover " + n1);
-	:}
-	|ARRIBA PUNTOYCOMA {:
-	RESULT=new String("arriba");
-	:}
-	|ABAJO PUNTOYCOMA {:
-	RESULT=new String("abajo");
-	:}
-	|IZQUIERDA PUNTOYCOMA {:
-	RESULT=new String("izquierda");
-	:}
-	|DERECHA PUNTOYCOMA {:
-	RESULT=new String("derecha");
-	:}
-	|REPETIR ESPACIO num:n1 LLAVEA lista2:l2 LLAVEC {:
+	|ins:in PUNTOYCOMA {:RESULT=in;:}
+	|REPETIR ESPACIO num:n LLAVEA algoritmo2:al2 LLAVEC {:
 	String repeticiones = "";
-	for (int i = 0; i < Integer.parseInt(n1+""); i++) {
-		repeticiones += "#" + l2;			
+	for (int i = 0; i < Integer.parseInt(n+""); i++) {
+		repeticiones += "#" + al2;			
 	}
 	RESULT = repeticiones;
 	:}
 	|error{:;:};
-num ::= NUMERO:n {:
-	RESULT=n+"";
-	:};
+
+ins ::= COLOCA ESPACIO num:n ESPACIO num:n1 {:RESULT=new String("coloca " + n + " " + n1);:}
+	|MOVER ESPACIO num:n {:RESULT=new String("mover " + n);:}
+	|ARRIBA {:RESULT=new String("arriba");:}
+	|ABAJO {:RESULT=new String("abajo");:}
+	|IZQUIERDA {:RESULT=new String("izquierda");:} 
+	|DERECHA {:RESULT=new String("derecha");:}
+	|error{:;:};
+
+num ::= NUMERO:n {:RESULT=n+"";:};
