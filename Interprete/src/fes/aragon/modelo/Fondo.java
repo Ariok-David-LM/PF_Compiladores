@@ -10,6 +10,7 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 import fes.aragon.compilador.Principal;
+import fes.aragon.editor.EditFuente;
 import fes.aragon.extras.EfectosMusica;
 import fes.aragon.extras.MusicaCiclica;
 import javafx.scene.canvas.GraphicsContext;
@@ -78,7 +79,6 @@ public class Fondo extends ComponentesJuego {
 		xC=x;
 		yC=y;
 		graficos.drawImage(imagen, x, y, ancho, alto);
-		//graficos.strokeRect(x, y, ancho, alto);
 		if (!comandos.isEmpty()) {
 			if(comandos.size()>indice) {
 				graficos.strokeText(comandos.get(indice), 100, 40);
@@ -87,17 +87,6 @@ public class Fondo extends ComponentesJuego {
 		xx2=(55+(ancho+10)*cooX);
 		yy2=(55+(alto+10)*cooY);
 		graficos.drawImage(cherry, xx2, yy2, 40, 40);
-
-		/*
-		 * graficos.drawImage(imagen, (x+(ancho+10)*2), y,ancho,alto);
-		 * graficos.strokeRect((x+(ancho+10)*2), y, ancho, alto);
-		 * 
-		 * graficos.drawImage(imagen, x, (y+(alto+10)*2),ancho,alto);
-		 * graficos.strokeRect(x, (y+(alto+10)*2), ancho, alto);
-		 * 
-		 * graficos.drawImage(imagen, (x+(ancho+10)*2), (y+(alto+10)*2),ancho,alto);
-		 * graficos.strokeRect((x+(ancho+10)*2), (y+(alto+10)*2), ancho, alto);
-		 */
 	}
 
 	@Override
@@ -106,9 +95,11 @@ public class Fondo extends ComponentesJuego {
 		if (presiona) {
 			switch (evento.getCode().toString()) {
 			case "A":
+				EditFuente editor = new EditFuente();
+				editor.setVisible(true);
+				break;
+			case "R":
 				try {
-					Principal analizadores = new Principal();
-					analizadores.main(null);
 					this.abrirArchivo();
 					graficos.clearRect(0, 0, 600, 600);
 				} catch (ClassNotFoundException e) {
@@ -118,8 +109,6 @@ public class Fondo extends ComponentesJuego {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				break;
-			case "R":
 				EfectosMusica arranque = new EfectosMusica("arranque");
 				arranque.run();
 				iniciar();
@@ -342,24 +331,17 @@ public class Fondo extends ComponentesJuego {
 	}
 
 	private void abrirArchivo() throws IOException, ClassNotFoundException {
-		FileChooser archivos = new FileChooser();
-		archivos.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Archivos compilador", "*.fes"));
-		archivos.setTitle("Abrir archivo de Compilador");
-		archivos.setInitialDirectory(new File(System.getProperty("user.dir")));
-		File ruta = archivos.showOpenDialog(this.ventana);
-		if (ruta != null) {
-			FileReader fr = new FileReader(ruta);
-			BufferedReader buff = new BufferedReader(fr);
-			String cad;
-			this.comandos.clear();
-			this.iniciar();
-			while ((cad = buff.readLine()) != null) {
-				comandos.add(cad);
-			}		
-			buff.close();
-			fr.close();
-		}
-
+		String ruta = System.getProperty("user.dir")+"/salida.fes";
+		FileReader fr = new FileReader(ruta);
+		BufferedReader buff = new BufferedReader(fr);
+		String cad;
+		this.comandos.clear();
+		this.iniciar();
+		while ((cad = buff.readLine()) != null) {
+			comandos.add(cad);
+		}		
+		buff.close();
+		fr.close();
 	}
 	private void iniciar() {
 		x=55;
