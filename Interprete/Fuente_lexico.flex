@@ -1,6 +1,7 @@
 package fes.aragon.compilador;
 import java_cup.runtime.Symbol;
 import java.io.Reader;
+import javax.swing.JOptionPane;
 %%
 %{
 	public int getYyline() {
@@ -44,6 +45,7 @@ NUM={DIGITO}+
 		return new Symbol(sym.NUMERO, new Integer(yytext())); }
 [\t\r\f]  {}
 [\n] {}
-. { System.out.println("Caracter no valido. "+yytext()+"-"); }
+. { System.out.println("Caracter no valido. "+yytext()+"-"); 
+	JOptionPane.showMessageDialog(null, "Caracter no valido. "+yytext()+"\n Verifique en su codigo que no exista.\n Se generara el codigo intermedio pero con errores\nNO PROCEDA con correrlo.");}
 
 
