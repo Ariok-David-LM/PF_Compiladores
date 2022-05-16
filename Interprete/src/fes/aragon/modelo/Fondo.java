@@ -10,9 +10,12 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 import fes.aragon.compilador.Principal;
-import fes.aragon.editor.EditFuente;
+import fes.aragon.edit.EditorFuente;
 import fes.aragon.extras.EfectosMusica;
 import fes.aragon.extras.MusicaCiclica;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -95,8 +98,14 @@ public class Fondo extends ComponentesJuego {
 		if (presiona) {
 			switch (evento.getCode().toString()) {
 			case "A":
-				EditFuente editor = new EditFuente();
-				editor.setVisible(true);
+				try {
+					Stage stage = new Stage();
+					EditorFuente editor = new EditorFuente();
+					editor.start(stage);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				break;
 			case "R":
 				try {
