@@ -19,7 +19,8 @@ public class Principal {
     }
 
     public String getRuta() throws URISyntaxException {
-        ruta=System.getProperty("user.dir")+"/src/fes/aragon/compilador/Fuente.txt";
+        ruta=this.getClass().getResource("/fes/aragon/compilador/Fuente.txt")
+                .toURI().getPath();
         return ruta;
     }
     public static void main(String[] args) {
@@ -28,7 +29,9 @@ public class Principal {
             parser inicio=new parser();
             inicio.cargar(app.getRuta());
             StringBuilder texto = inicio.action_obj.info;
+            //System.out.println(texto.toString());
             System.out.println("Entrar");
+            //System.out.println(inicio.codIntermedio());
             } catch (Exception ex) {
             //ex.printStackTrace();
         }

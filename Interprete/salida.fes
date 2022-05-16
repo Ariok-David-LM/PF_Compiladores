@@ -1,5 +1,32 @@
 mover 1
-null
+abajo
+mover 3
+ver 
+{
+abajo
+mover 2
+mover 2
+izquierda
 mover 1
-null
+mover 2
+izquierda
+mover 1
+mover 2
+izquierda
+mover 1
+abajo
+mover 2
+}
+izquierda
+mover 1
+ver 
+{
+mover 2
+}
+izquierda
+mover 1
+ver 
+{
+mover 2
+}
 

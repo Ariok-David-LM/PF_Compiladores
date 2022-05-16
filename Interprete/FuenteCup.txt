@@ -12,25 +12,11 @@ action code{:
 	public void almacenar(String datos,boolean valor){
 		String[] intermedio  = datos.split("#"); 
 		for (int i = 0; i < intermedio.length; i++) {
-			if (!intermedio[i].equals("")) {
-				info.append(intermedio[i]+ "\n");
-			}
+			//String string = intermedio[i];
+			info.append(intermedio[i]+ "\n");
 		}
 		System.out.println(datos);
 		archivoSalida.escribir(info,valor);
-		Boolean existe = false;
-		for (int i = 0; i < intermedio.length; i++) {
-			if (intermedio[i].equals("null")) {
-				existe = true;
-			}
-		}
-		if (datos.equals("null")) {
-			JOptionPane.showMessageDialog(null, "ERROR\nCodigo intermedio no generado.");
-		} else if (existe) {
-			JOptionPane.showMessageDialog(null, "ADVERTENCIA\nCodigo intermedio generado pero con errores.\nNO PROCEDA con correrlo.");
-		} else {
-			JOptionPane.showMessageDialog(null, "ACEPTADO\nCodigo intermedio generado.");
-		}
 	}
 :};
 
@@ -71,7 +57,7 @@ algoritmo ::= algoritmo:al ins:in PUNTOYCOMA {:RESULT=al + "#" + in;:}
 	:}
 	|algoritmo:al VERFRUTA LLAVEA algoritmo3:al3 LLAVEC {:RESULT=al + "#" + "ver " + "#" + "{" + "#" + al3 + "#" + "}";:}
 	|ins:in PUNTOYCOMA {:RESULT=in;:}
-	|REPETIR ESPACIO num:n LLAVEA algoritmo2:al2 LLAVEC {:
+	|REPETIR num:n ESPACIO LLAVEA algoritmo2:al2 LLAVEC {:
 	String repeticiones = "";
 	for (int i = 0; i < Integer.parseInt(n+""); i++) {
 		repeticiones += "#" + al2;			
