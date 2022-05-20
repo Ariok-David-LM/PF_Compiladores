@@ -27,7 +27,6 @@ public class Principal {
         	Principal app=new Principal();
             parser inicio=new parser();
             inicio.cargar(app.getRuta());
-            StringBuilder texto = inicio.action_obj.info;
             System.out.println("Entrar");
             } catch (Exception ex) {
             //ex.printStackTrace();
